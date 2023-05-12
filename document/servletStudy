@@ -1,0 +1,4 @@
+servlet(interface) -> javax.servlet.GenericServlet(abstract class) -> javax.servlet.http.HttpServlet(abstract class)
+0-> UserDefinedServlet(concrete class)
+
+GenericServlet은 init, destroy, config 등 메서드를 필요할때만 override 해서 사용하면 된다.

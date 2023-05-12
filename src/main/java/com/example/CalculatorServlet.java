@@ -7,44 +7,26 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet("/calculate")
-public class CalculatorServlet implements Servlet {
+public class CalculatorServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(CalculatorServlet.class);
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
-        log.info("init");
-    }
-
-    @Override
-    public void service(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         log.info("service");
-        int operand1 = Integer.parseInt(request.getParameter("operand1"));
-        String operator = request.getParameter("operator");
-        int operand2 = Integer.parseInt(request.getParameter("operand2"));
+        int operand1 = Integer.parseInt(req.getParameter("operand1"));;
+        String operator = req.getParameter("operand2");
+        int operand2 = Integer.parseInt(req.getParameter("operand2"));
 
         int result = Calculator.calculate(new PositiveNumber(operand1), operator, new PositiveNumber(operand2));
 
-        PrintWriter writer = response.getWriter();
-        writer.println(result);
-    }
-
-    @Override
-    public void destroy() {
-
-    }
-
-    @Override
-    public ServletConfig getServletConfig() {
-        return null;
-    }
-
-
-    @Override
-    public String getServletInfo() {
-        return null;
+        PrintWriter out = resp.getWriter();
+        out.println(result);
     }
 }
